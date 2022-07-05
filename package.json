@@ -1,6 +1,6 @@
 {
-  "name": "docs-ts",
-  "version": "0.6.10",
+  "name": "@ericcrosson/docs-ts",
+  "version": "0.0.0-semantically-released",
   "description": "Documentation tool for TypeScript packages",
   "files": [
     "lib"
@@ -9,11 +9,10 @@
   "bin": "lib/bin.js",
   "typings": "lib/index.d.ts",
   "scripts": {
-    "lint": "tslint -p tsconfig.json",
     "jest": "jest",
     "prettier": "prettier --parser typescript --list-different \"{src,test}/**/*.ts\"",
     "fix-prettier": "prettier --parser typescript --write \"{src,test}/**/*.ts\"",
-    "test": "npm run lint && npm run prettier && npm run jest && npm run docs",
+    "test": "npm run prettier && npm run jest && npm run docs",
     "clean": "rimraf rm -rf lib/*",
     "build": "npm run clean && tsc",
     "prepublish": "npm run build",
@@ -23,40 +22,44 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gcanti/docs-ts.git"
+    "url": "https://github.com/ericcrosson/docs-ts.git"
   },
   "author": "Giulio Canti <giulio.canti@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/gcanti/docs-ts/issues"
+    "url": "https://github.com/ericcrosson/docs-ts/issues"
   },
-  "homepage": "https://github.com/gcanti/docs-ts",
+  "homepage": "https://github.com/ericcrosson/docs-ts",
   "dependencies": {
     "chalk": "^2.4.2",
     "doctrine": "^3.0.0",
     "fp-ts": "^2.9.3",
     "fs-extra": "^7.0.1",
     "glob": "^7.1.6",
-    "io-ts": "^2.2.13",
+    "io-ts": "^2.1.3",
     "logging-ts": "^0.3.4",
     "markdown-toc": "^1.2.0",
     "rimraf": "^2.7.1",
     "ts-morph": "^9.1.0",
-    "ts-node": "^8.10.2"
+    "ts-node": "^10.8.2"
   },
   "devDependencies": {
+    "@semantic-release/changelog": "6.0.1",
+    "@semantic-release/git": "10.0.1",
+    "@semantic-release/github": "8.0.4",
+    "@semantic-release/npm": "9.0.1",
     "@types/doctrine": "0.0.3",
     "@types/fs-extra": "^5.0.5",
     "@types/glob": "^7.1.3",
-    "@types/jest": "^26.0.20",
+    "@types/jest": "^28.0.0",
     "@types/node": "^10.17.51",
     "@types/prettier": "^1.19.1",
     "@types/rimraf": "^2.0.4",
     "doctoc": "^1.4.0",
-    "jest": "^26.6.3",
+    "jest": "^28.0.0",
     "prettier": "^2.2.1",
-    "ts-jest": "^24.0.2",
-    "tslint": "^5.20.1",
+    "semantic-release": "19.0.3",
+    "ts-jest": "^28.0.5",
     "tslint-config-standard": "^8.0.1",
     "typescript": "^4.1.3"
   },
