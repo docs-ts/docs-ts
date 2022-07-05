@@ -1,3 +1,21 @@
+# 1.0.0 (2022-07-05)
+
+
+### Bug Fixes
+
+* assert.equal assert.strictEqual ([7a2a7a9](https://github.com/ericcrosson/docs-ts/commit/7a2a7a9cf272547ef5a33325d9f2ce0cc8829a03))
+* **bin:** process.exit when an error occurs, print to stderr ([4127fba](https://github.com/ericcrosson/docs-ts/commit/4127fba54421215efd5d1b8e6d8f031a7e270430))
+* **comments:** RegExp match examples ([1dfaac7](https://github.com/ericcrosson/docs-ts/commit/1dfaac72b8c97b4e49c075c4c0396e0c2afe0afa))
+* **core:** overwrite on files that should not be overwritten ([d981e9d](https://github.com/ericcrosson/docs-ts/commit/d981e9d2f99b6130367bc33aaff877558a632e31))
+* **lint:** Remove unnecessary type cast ([4b286cc](https://github.com/ericcrosson/docs-ts/commit/4b286cc16aa421c7c6bc439d6a440cafca60c293))
+* **test:** Use ummutable implementation ([7c83962](https://github.com/ericcrosson/docs-ts/commit/7c839626d9980aad3e8020a40c72c6b31440d96f))
+
+
+### Features
+
+* **core:** Support any path in src in the examples ([7dd6f3a](https://github.com/ericcrosson/docs-ts/commit/7dd6f3aa48dd2fa3dbab8f6f835ac8e6726d5d90))
+* print error as non coerced string ([98be43d](https://github.com/ericcrosson/docs-ts/commit/98be43d6784c4eebe18f516683d674c4daf5cd8b))
+
 # Changelog
 
 > **Tags:**
