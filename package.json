@@ -9,11 +9,10 @@
   "bin": "lib/bin.js",
   "typings": "lib/index.d.ts",
   "scripts": {
-    "lint": "tslint -p tsconfig.json",
     "jest": "jest",
     "prettier": "prettier --parser typescript --list-different \"{src,test}/**/*.ts\"",
     "fix-prettier": "prettier --parser typescript --write \"{src,test}/**/*.ts\"",
-    "test": "npm run lint && npm run prettier && npm run jest && npm run docs",
+    "test": "npm run prettier && npm run jest && npm run docs",
     "clean": "rimraf rm -rf lib/*",
     "build": "npm run clean && tsc",
     "prepublish": "npm run build",
@@ -61,7 +60,6 @@
     "prettier": "^2.2.1",
     "semantic-release": "19.0.3",
     "ts-jest": "^28.0.5",
-    "tslint": "^5.20.1",
     "tslint-config-standard": "^8.0.1",
     "typescript": "^4.1.3"
   },
