@@ -27,6 +27,8 @@ jobs:
         run: npm test
       - name: Release
         env:
+          GIT_AUTHOR_NAME: Eric Crosson
+          GIT_AUTHOR_EMAIL: eric.s.crosson@utexas.edu
           GIT_COMMITTER_NAME: Eric Crosson
           GIT_COMMITTER_EMAIL: eric.s.crosson@utexas.edu
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
