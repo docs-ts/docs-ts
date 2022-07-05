@@ -193,17 +193,19 @@ const getExamples = (name: string, comment: Comment, isModule: boolean): Parser<
 /**
  * @internal
  */
-export const getCommentInfo = (name: string, isModule = false) => (text: string): Parser<CommentInfo> =>
-  pipe(
-    RE.right<ParserEnv, string, Comment>(parseComment(text)),
-    RE.bindTo('comment'),
-    RE.bind('description', ({ comment }) => getDescription(name, comment)),
-    RE.bind('examples', ({ comment }) => getExamples(name, comment, isModule)),
-    RE.bind('deprecated', ({ comment }) => RE.right(pipe(comment.tags, RR.lookup('deprecated'), O.isSome))),
-    RE.map(({ deprecated, description, examples }) => {
-      return CommentInfo(description, deprecated, examples)
-    })
-  )
+export const getCommentInfo =
+  (name: string, isModule = false) =>
+  (text: string): Parser<CommentInfo> =>
+    pipe(
+      RE.right<ParserEnv, string, Comment>(parseComment(text)),
+      RE.bindTo('comment'),
+      RE.bind('description', ({ comment }) => getDescription(name, comment)),
+      RE.bind('examples', ({ comment }) => getExamples(name, comment, isModule)),
+      RE.bind('deprecated', ({ comment }) => RE.right(pipe(comment.tags, RR.lookup('deprecated'), O.isSome))),
+      RE.map(({ deprecated, description, examples }) => {
+        return CommentInfo(description, deprecated, examples)
+      })
+    )
 
 /**
  * @internal
@@ -553,25 +555,27 @@ const parseMethod = (md: ast.MethodDeclaration): Parser<O.Option<Method>> =>
     )
   )
 
-const parseProperty = (classname: string) => (pd: ast.PropertyDeclaration): Parser<Property> => {
-  const name = pd.getName()
-  return pipe(
-    getJSDocText(pd.getJsDocs()),
-    getCommentInfo(`${classname}#${name}`),
-    RE.map((info) => {
-      const type = stripImportTypes(pd.getType().getText(pd))
-      const readonly = pipe(
-        O.fromNullable(pd.getFirstModifierByKind(ast.ts.SyntaxKind.ReadonlyKeyword)),
-        O.fold(
-          () => '',
-          () => 'readonly '
+const parseProperty =
+  (classname: string) =>
+  (pd: ast.PropertyDeclaration): Parser<Property> => {
+    const name = pd.getName()
+    return pipe(
+      getJSDocText(pd.getJsDocs()),
+      getCommentInfo(`${classname}#${name}`),
+      RE.map((info) => {
+        const type = stripImportTypes(pd.getType().getText(pd))
+        const readonly = pipe(
+          O.fromNullable(pd.getFirstModifierByKind(ast.ts.SyntaxKind.ReadonlyKeyword)),
+          O.fold(
+            () => '',
+            () => 'readonly '
+          )
         )
-      )
-      const signature = `${readonly}${name}: ${type}`
-      return Property(Documentable(name, info.description, info.deprecated, info.examples), signature)
-    })
-  )
-}
+        const signature = `${readonly}${name}: ${type}`
+        return Property(Documentable(name, info.description, info.deprecated, info.examples), signature)
+      })
+    )
+  }
 
 const parseProperties = (name: string, c: ast.ClassDeclaration): Parser<ReadonlyArray<Property>> =>
   pipe(
@@ -735,25 +739,27 @@ export const parseModule: Parser<Module> = pipe(
 /**
  * @internal
  */
-export const parseFile = (project: ast.Project) => (file: File): RTE.ReaderTaskEither<Environment, string, Module> =>
-  pipe(
-    RTE.ask<Environment>(),
-    RTE.chain((env) =>
-      pipe(
-        RTE.right<Environment, string, RNEA.ReadonlyNonEmptyArray<string>>(file.path.split(Path.sep) as any),
-        RTE.bindTo('path'),
-        RTE.bind(
-          'sourceFile',
-          (): RTE.ReaderTaskEither<Environment, string, ast.SourceFile> =>
-            pipe(
-              O.fromNullable(project.getSourceFile(file.path)),
-              RTE.fromOption(() => `Unable to locate file: ${file.path}`)
-            )
-        ),
-        RTE.chainEitherK((menv) => parseModule({ ...env, ...menv }))
+export const parseFile =
+  (project: ast.Project) =>
+  (file: File): RTE.ReaderTaskEither<Environment, string, Module> =>
+    pipe(
+      RTE.ask<Environment>(),
+      RTE.chain((env) =>
+        pipe(
+          RTE.right<Environment, string, RNEA.ReadonlyNonEmptyArray<string>>(file.path.split(Path.sep) as any),
+          RTE.bindTo('path'),
+          RTE.bind(
+            'sourceFile',
+            (): RTE.ReaderTaskEither<Environment, string, ast.SourceFile> =>
+              pipe(
+                O.fromNullable(project.getSourceFile(file.path)),
+                RTE.fromOption(() => `Unable to locate file: ${file.path}`)
+              )
+          ),
+          RTE.chainEitherK((menv) => parseModule({ ...env, ...menv }))
+        )
       )
     )
-  )
 
 const createProject = (files: ReadonlyArray<File>): RTE.ReaderTaskEither<Environment, string, ast.Project> =>
   pipe(

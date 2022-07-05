@@ -59,8 +59,10 @@ export const LogEntry = (message: string, date: Date, level: LogLevel): LogEntry
 // utils
 // -------------------------------------------------------------------------------------
 
-const getLoggerEntry = (withColor: (...message: ReadonlyArray<string>) => string): L.LoggerTask<LogEntry> => (entry) =>
-  T.fromIO(C.log(withColor(showEntry.show(entry))))
+const getLoggerEntry =
+  (withColor: (...message: ReadonlyArray<string>) => string): L.LoggerTask<LogEntry> =>
+  (entry) =>
+    T.fromIO(C.log(withColor(showEntry.show(entry))))
 
 const debugLogger = L.filter(getLoggerEntry(chalk.cyan), (e) => e.level === 'DEBUG')
 
@@ -70,11 +72,13 @@ const infoLogger = L.filter(getLoggerEntry(chalk.bold.magenta), (e) => e.level =
 
 const mainLogger = pipe([debugLogger, errorLogger, infoLogger], M.fold(L.getMonoid<LogEntry>()))
 
-const logWithLevel = (level: LogLevel) => (message: string): T.Task<void> =>
-  pipe(
-    T.fromIO(D.create),
-    T.chain((date) => mainLogger({ message, date, level }))
-  )
+const logWithLevel =
+  (level: LogLevel) =>
+  (message: string): T.Task<void> =>
+    pipe(
+      T.fromIO(D.create),
+      T.chain((date) => mainLogger({ message, date, level }))
+    )
 
 /**
  * @category utils
