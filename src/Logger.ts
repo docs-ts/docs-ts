@@ -120,7 +120,7 @@ export const toErrorMsg = (err: Error): string => String(err.message)
  * @since 0.6.0
  */
 export const Logger: Logger = {
-  debug: (message) => pipe(TE.fromTask<Error, void>(debug(message)), TE.mapLeft(toErrorMsg)),
-  error: (message) => pipe(TE.fromTask<Error, void>(error(message)), TE.mapLeft(toErrorMsg)),
-  info: (message) => pipe(TE.fromTask<Error, void>(info(message)), TE.mapLeft(toErrorMsg))
+  debug: (message) => pipe(TE.fromTask<void, Error>(debug(message)), TE.mapLeft(toErrorMsg)),
+  error: (message) => pipe(TE.fromTask<void, Error>(error(message)), TE.mapLeft(toErrorMsg)),
+  info: (message) => pipe(TE.fromTask<void, Error>(info(message)), TE.mapLeft(toErrorMsg))
 }
