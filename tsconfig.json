@@ -4,7 +4,9 @@
     "target": "es5",
     "module": "commonjs",
     "moduleResolution": "node",
-    "lib": ["es6"],
+    "lib": [
+      "es6"
+    ],
     "sourceMap": false,
     "declaration": true,
     "strict": true,
@@ -15,5 +17,10 @@
     "forceConsistentCasingInFileNames": true,
     "stripInternal": true
   },
-  "include": ["./src"]
+  "include": [
+    "./src"
+  ],
+  "exclude": [
+    "./lib"
+  ],
 }

@@ -19,7 +19,7 @@ describe('Config', () => {
         enableSearch: true,
         enforceDescriptions: false,
         enforceExamples: false,
-        enforceVersion: true,
+        enforceVersion: false,
         exclude: RA.empty
       })
     })

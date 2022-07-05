@@ -7,7 +7,7 @@ import * as O from 'fp-ts/Option'
 import * as RA from 'fp-ts/ReadonlyArray'
 import * as RTE from 'fp-ts/ReaderTaskEither'
 import * as TE from 'fp-ts/TaskEither'
-import { constVoid, Endomorphism, flow, pipe } from 'fp-ts/function'
+import { constVoid, flow, pipe } from 'fp-ts/function'
 import * as TD from 'io-ts/TaskDecoder'
 import * as path from 'path'
 
@@ -15,7 +15,6 @@ import * as Config from './Config'
 import { Example } from './Example'
 import { File, FileSystem } from './FileSystem'
 import { Logger } from './Logger'
-import { printModule } from './Markdown'
 import { Documentable, Module } from './Module'
 import * as P from './Parser'
 
@@ -310,143 +309,6 @@ const typeCheckExamples = (modules: ReadonlyArray<Module>): Program<void> =>
   )
 
 // -------------------------------------------------------------------------------------
-// markdown
-// -------------------------------------------------------------------------------------
-
-const getHome: Program<File> = pipe(
-  RTE.ask<Environment, string>(),
-  RTE.map(({ settings }) =>
-    File(
-      path.join(process.cwd(), settings.outDir, 'index.md'),
-      `---
-title: Home
-nav_order: 1
----
-`,
-      false
-    )
-  )
-)
-
-const getModulesIndex: Program<File> = pipe(
-  RTE.ask<Environment, string>(),
-  RTE.map(({ settings }) =>
-    File(
-      path.join(process.cwd(), settings.outDir, 'modules', 'index.md'),
-      `---
-title: Modules
-has_children: true
-permalink: /docs/modules
-nav_order: 2
----`,
-      false
-    )
-  )
-)
-
-const replace = (searchValue: string | RegExp, replaceValue: string): Endomorphism<string> => (s) =>
-  s.replace(searchValue, replaceValue)
-
-/* tslint:disable:no-regex-spaces */
-const resolveConfigYML = (previousContent: string, settings: Config.Settings): string =>
-  pipe(
-    previousContent,
-    replace(/^remote_theme:.*$/m, `remote_theme: ${settings.theme}`),
-    replace(/^search_enabled:.*$/m, `search_enabled: ${settings.enableSearch}`),
-    replace(
-      /^  '\S* on GitHub':\n    - '.*'/m,
-      `  '${settings.projectName} on GitHub':\n    - '${settings.projectHomepage}'`
-    )
-  )
-/* tslint:enable:no-regex-spaces */
-
-const getHomepageNavigationHeader = (settings: Config.Settings): string => {
-  const isGitHub = settings.projectHomepage.toLowerCase().includes('github')
-  return isGitHub ? settings.projectName + ' on GitHub' : 'Homepage'
-}
-
-const getConfigYML: Program<File> = pipe(
-  RTE.ask<Environment, string>(),
-  RTE.chainTaskEitherK(({ fileSystem, settings }) => {
-    const filePath = path.join(process.cwd(), settings.outDir, '_config.yml')
-    return pipe(
-      fileSystem.exists(filePath),
-      TE.chain((exists) =>
-        exists
-          ? pipe(
-              fileSystem.readFile(filePath),
-              TE.map((content) => File(filePath, resolveConfigYML(content, settings), true))
-            )
-          : TE.of(
-              File(
-                filePath,
-                `remote_theme: ${settings.theme}
-
-# Enable or disable the site search
-search_enabled: ${settings.enableSearch}
-
-# Aux links for the upper right navigation
-aux_links:
-  '${getHomepageNavigationHeader(settings)}':
-    - '${settings.projectHomepage}'`,
-                false
-              )
-            )
-      )
-    )
-  })
-)
-
-const getMarkdownOutputPath = (module: Module): Program<string> =>
-  pipe(
-    RTE.ask<Environment, string>(),
-    RTE.map(({ settings }) => path.join(settings.outDir, 'modules', `${module.path.slice(1).join(path.sep)}.md`))
-  )
-
-const getModuleMarkdownFiles = (modules: ReadonlyArray<Module>): Program<ReadonlyArray<File>> =>
-  pipe(
-    modules,
-    RTE.traverseArrayWithIndex((order, module) =>
-      pipe(
-        getMarkdownOutputPath(module),
-        RTE.bindTo('outputPath'),
-        RTE.bind('content', () => RTE.right(printModule(module, order + 1))),
-        RTE.map(({ content, outputPath }) => File(outputPath, content, true))
-      )
-    )
-  )
-
-const getMarkdownFiles = (modules: ReadonlyArray<Module>): Program<ReadonlyArray<File>> =>
-  pipe(
-    RTE.sequenceArray([getHome, getModulesIndex, getConfigYML]),
-    RTE.chain((meta) =>
-      pipe(
-        getModuleMarkdownFiles(modules),
-        RTE.map((files) => RA.getMonoid<File>().concat(meta, files))
-      )
-    )
-  )
-
-const writeMarkdownFiles = (files: ReadonlyArray<File>): Program<void> =>
-  pipe(
-    RTE.ask<Environment, string>(),
-    RTE.chainFirst<Environment, string, Environment, void>(({ fileSystem, logger, settings }) => {
-      const outPattern = path.join(settings.outDir, '**/*.ts.md')
-      return pipe(
-        logger.debug(`Cleaning up docs folder: deleting ${outPattern}`),
-        TE.chain(() => fileSystem.remove(outPattern)),
-        RTE.fromTaskEither
-      )
-    }),
-    RTE.chainTaskEitherK((C) =>
-      pipe(
-        C.logger.debug('Writing markdown files...'),
-        TE.chain(() => pipe(C, writeFiles(files)))
-      )
-    )
-  )
-
-// -------------------------------------------------------------------------------------
 // config
 // -------------------------------------------------------------------------------------
 
@@ -526,13 +388,7 @@ export const main: Effect<void> = pipe(
         pipe(
           getDocsConfiguration(pkg.name, pkg.homepage),
           RTE.chainTaskEitherK((settings) => {
-            const program = pipe(
-              readSourceFiles,
-              RTE.chain(parseFiles),
-              RTE.chainFirst(typeCheckExamples),
-              RTE.chain(getMarkdownFiles),
-              RTE.chain(writeMarkdownFiles)
-            )
+            const program = pipe(readSourceFiles, RTE.chain(parseFiles), RTE.chain(typeCheckExamples))
             return program({ ...capabilities, settings })
           })
         )

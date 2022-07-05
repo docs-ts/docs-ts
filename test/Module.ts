@@ -5,7 +5,7 @@ import { pipe } from 'fp-ts/function'
 
 import * as _ from '../src/Module'
 
-const documentable = (name: string) => _.Documentable(name, O.none, O.some('1.0.0'), false, RA.empty, O.none)
+const documentable = (name: string) => _.Documentable(name, O.none, false, RA.empty)
 
 describe('Module', () => {
   describe('constructors', () => {
@@ -13,10 +13,8 @@ describe('Module', () => {
       assert.deepStrictEqual(documentable('A'), {
         name: 'A',
         description: O.none,
-        since: O.some('1.0.0'),
         deprecated: false,
-        examples: RA.empty,
-        category: O.none
+        examples: RA.empty
       })
     })
 

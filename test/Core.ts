@@ -174,9 +174,7 @@ describe('Core', () => {
           assert.strictEqual(result, undefined)
 
           const actual = Object.keys(fileSystemState)
-          const expected = [`package.json`, 'docs/index.md', 'docs/modules/index.md', 'docs/_config.yml'].map((path) =>
-            join(process.cwd(), path)
-          )
+          const expected = [`package.json`].map((path) => join(process.cwd(), path))
 
           assert.deepStrictEqual(actual, expected)
         })
@@ -194,27 +192,6 @@ describe('Core', () => {
           assert.strictEqual(A.elem(eqString)('Found configuration file')(log), true)
           assert.strictEqual(
             A.elem(eqString)(`Parsing configuration file found at: ${process.cwd()}/docs-ts.json`)(log),
-            true
-          )
-        })
-      })
-
-      it('should skip creation of index.md if the file already exists', async () => {
-        const indexMd = `---
-title: Home
-nav_order: 1
----`
-        const state = prefixWithCwd({
-          'package.json': defaultPackageJson,
-          'docs/index.md': indexMd,
-          'docs-ts.json': JSON.stringify({ enableSearch: false })
-        })
-        const capabilities = makeCapabilities(state)
-
-        assertRight(await Core.main(capabilities)(), (result) => {
-          assert.strictEqual(result, undefined)
-          assert.strictEqual(
-            log.includes(`File ${process.cwd()}/docs/index.md already exists, skipping creation`),
             true
           )
         })
@@ -248,66 +225,6 @@ additional_config_param: true`
           )
         })
       })
-
-      it('should use the homepage specified in the package.json if no config present', async () => {
-        const state = prefixWithCwd({
-          'package.json': defaultPackageJson
-        })
-        const capabilities = makeCapabilities(state)
-
-        assertRight(await Core.main(capabilities)(), (result) => {
-          const config = fileSystemState[join(process.cwd(), 'docs/_config.yml')]
-          assert.strictEqual(result, undefined)
-          assert.strictEqual(config.includes('GitHub'), true)
-          assert.strictEqual(config.includes('Homepage'), false)
-          assert.strictEqual(config.includes('https://www.github.com/gcanti/docs-ts'), true)
-        })
-      })
-
-      it('should use the project homepage specified in the config file if present', async () => {
-        const state = prefixWithCwd({
-          'package.json': defaultPackageJson,
-          'docs-ts.json': JSON.stringify({ projectHomepage: 'https://somewhere.com/user/project' })
-        })
-        const capabilities = makeCapabilities(state)
-
-        assertRight(await Core.main(capabilities)(), (result) => {
-          const config = fileSystemState[join(process.cwd(), 'docs/_config.yml')]
-          assert.strictEqual(result, undefined)
-          assert.strictEqual(config.includes('Homepage'), true)
-          assert.strictEqual(config.includes('GitHub'), false)
-          assert.strictEqual(config.includes('https://somewhere.com/user/project'), true)
-        })
-      })
-    })
-
-    describe('modules', () => {
-      it('should log modules found in the file system to the console', async () => {
-        const state = prefixWithCwd({
-          'package.json': defaultPackageJson,
-          'src/utils/foo.ts': `
-/**
- * @since 0.0.1
- */
-
-/**
- * @category utils
- * @since 0.0.1
- */
-export const foo = (): string => 'foo'
-          `
-        })
-        const capabilities = makeCapabilities(state)
-
-        assertRight(await Core.main(capabilities)(), (result) => {
-          assert.strictEqual(result, undefined)
-          assert.strictEqual(log.includes('Found 1 modules'), true)
-          assert.strictEqual(
-            Object.keys(fileSystemState).includes(join(process.cwd(), 'docs/modules/src/utils/foo.ts.md')),
-            true
-          )
-        })
-      })
     })
 
     describe('examples', () => {
@@ -315,14 +232,6 @@ export const foo = (): string => 'foo'
         const state = prefixWithCwd({
           'package.json': defaultPackageJson,
           'src/utils/foo.ts': `
-/**
- * @since 0.0.1
- */
-
-/**
- * @category utils
- * @since 0.0.1
- */
 export class Foo {
   /**
    * @example
