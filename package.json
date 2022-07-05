@@ -68,5 +68,8 @@
     "typescript": "^3.3.1 || ^4.x"
   },
   "tags": [],
-  "keywords": []
+  "keywords": [],
+  "publishConfig": {
+    "access": "public"
+  }
 }
