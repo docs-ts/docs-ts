@@ -1,3 +1,11 @@
+## [1.0.1](https://github.com/EricCrosson/docs-ts/compare/v1.0.0...v1.0.1) (2022-07-05)
+
+
+### Bug Fixes
+
+* re-release since 1.0.0 failed ([b06aba9](https://github.com/EricCrosson/docs-ts/commit/b06aba9d9d751bd1a7929a2732b351356d1b98b2))
+* remove unused npm script ([f2eecda](https://github.com/EricCrosson/docs-ts/commit/f2eecdaf03c1d1e1ce411a4d7ad5584497726aee))
+
 # 1.0.0 (2022-07-05)
 
 
