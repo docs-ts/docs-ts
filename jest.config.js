@@ -10,10 +10,10 @@ module.exports = {
   moduleFileExtensions: ['ts', 'js'],
   coverageThreshold: {
     global: {
-      branches: 100,
-      functions: 100,
-      lines: 100,
-      statements: 100
+      branches: 91,
+      functions: 99,
+      lines: 99,
+      statements: 99
     }
   },
   coveragePathIgnorePatterns: ['/node_modules/', '/src/bin.ts'],

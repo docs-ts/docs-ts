@@ -30,10 +30,8 @@ export interface Module extends Documentable {
 export interface Documentable {
   readonly name: string
   readonly description: O.Option<string>
-  readonly since: O.Option<string>
   readonly deprecated: boolean
   readonly examples: ReadonlyArray<Example>
-  readonly category: O.Option<string>
 }
 
 /**
@@ -126,11 +124,9 @@ export type Example = string
 export const Documentable = (
   name: string,
   description: O.Option<string>,
-  since: O.Option<string>,
   deprecated: boolean,
-  examples: ReadonlyArray<Example>,
-  category: O.Option<string>
-): Documentable => ({ name, description, since, deprecated, examples, category })
+  examples: ReadonlyArray<Example>
+): Documentable => ({ name, description, deprecated, examples })
 
 /**
  * @category constructors

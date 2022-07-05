@@ -73,7 +73,7 @@ const monoidConfig: M.Monoid<Config> = M.getStructMonoid({
   enableSearch: getMonoidSetting<boolean>(true),
   enforceDescriptions: getMonoidSetting<boolean>(false),
   enforceExamples: getMonoidSetting<boolean>(false),
-  enforceVersion: getMonoidSetting<boolean>(true),
+  enforceVersion: getMonoidSetting<boolean>(false),
   exclude: getMonoidSetting<ReadonlyArray<string>>(RA.empty)
 })
 

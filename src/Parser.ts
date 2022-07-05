@@ -70,10 +70,8 @@ interface Comment {
 
 interface CommentInfo {
   readonly description: O.Option<string>
-  readonly since: O.Option<string>
   readonly deprecated: boolean
   readonly examples: ReadonlyArray<Example>
-  readonly category: O.Option<string>
 }
 
 // -------------------------------------------------------------------------------------
@@ -82,16 +80,12 @@ interface CommentInfo {
 
 const CommentInfo = (
   description: O.Option<string>,
-  since: O.Option<string>,
   deprecated: boolean,
-  examples: ReadonlyArray<Example>,
-  category: O.Option<string>
+  examples: ReadonlyArray<Example>
 ): CommentInfo => ({
   description,
-  since,
   deprecated,
-  examples,
-  category
+  examples
 })
 
 // -------------------------------------------------------------------------------------
@@ -157,41 +151,6 @@ export const addFileToProject = (file: File) => (project: ast.Project) => projec
 // comments
 // -------------------------------------------------------------------------------------
 
-const getSinceTag = (name: string, comment: Comment): Parser<O.Option<string>> =>
-  pipe(
-    RE.ask<ParserEnv>(),
-    RE.chainEitherK((env) =>
-      pipe(
-        comment.tags,
-        RR.lookup('since'),
-        O.chain(RNEA.head),
-        O.fold(
-          () =>
-            env.settings.enforceVersion
-              ? E.left(`Missing @since tag in ${env.path.join('/')}#${name} documentation`)
-              : E.right(O.none),
-          (since) => E.right(O.some(since))
-        )
-      )
-    )
-  )
-
-const getCategoryTag = (name: string, comment: Comment): Parser<O.Option<string>> =>
-  pipe(
-    RE.ask<ParserEnv>(),
-    RE.chainEitherK((env) =>
-      pipe(
-        comment.tags,
-        RR.lookup('category'),
-        O.chain(RNEA.head),
-        E.fromPredicate(
-          not(every([O.isNone, () => RR.hasOwnProperty('category', comment.tags)])),
-          () => `Missing @category value in ${env.path.join('/')}#${name} documentation`
-        )
-      )
-    )
-  )
-
 const getDescription = (name: string, comment: Comment): Parser<O.Option<string>> =>
   pipe(
     RE.ask<ParserEnv>(),
@@ -238,13 +197,11 @@ export const getCommentInfo = (name: string, isModule = false) => (text: string)
   pipe(
     RE.right<ParserEnv, string, Comment>(parseComment(text)),
     RE.bindTo('comment'),
-    RE.bind('since', ({ comment }) => getSinceTag(name, comment)),
-    RE.bind('category', ({ comment }) => getCategoryTag(name, comment)),
     RE.bind('description', ({ comment }) => getDescription(name, comment)),
     RE.bind('examples', ({ comment }) => getExamples(name, comment, isModule)),
     RE.bind('deprecated', ({ comment }) => RE.right(pipe(comment.tags, RR.lookup('deprecated'), O.isSome))),
-    RE.map(({ category, deprecated, description, examples, since }) => {
-      return CommentInfo(description, since, deprecated, examples, category)
+    RE.map(({ deprecated, description, examples }) => {
+      return CommentInfo(description, deprecated, examples)
     })
   )
 
@@ -271,10 +228,7 @@ const parseInterfaceDeclaration = (id: ast.InterfaceDeclaration): Parser<Interfa
     getJSDocText(id.getJsDocs()),
     getCommentInfo(id.getName()),
     RE.map((info) =>
-      Interface(
-        Documentable(id.getName(), info.description, info.since, info.deprecated, info.examples, info.category),
-        id.getText()
-      )
+      Interface(Documentable(id.getName(), info.description, info.deprecated, info.examples), id.getText())
     )
   )
 
@@ -338,10 +292,7 @@ const parseFunctionDeclaration = (fd: ast.FunctionDeclaration): Parser<Function>
               (init, last) => RA.snoc(init.map(getFunctionDeclarationSignature), getFunctionDeclarationSignature(last))
             )
           )
-          return Function(
-            Documentable(name, info.description, info.since, info.deprecated, info.examples, info.category),
-            signatures
-          )
+          return Function(Documentable(name, info.description, info.deprecated, info.examples), signatures)
         })
       )
     )
@@ -355,10 +306,7 @@ const parseFunctionVariableDeclaration = (vd: ast.VariableDeclaration): Parser<F
     getCommentInfo(name),
     RE.map((info) => {
       const signature = `export declare const ${name}: ${stripImportTypes(vd.getType().getText(vd))}`
-      return Function(
-        Documentable(name, info.description, info.since, info.deprecated, info.examples, info.category),
-        RA.of(signature)
-      )
+      return Function(Documentable(name, info.description, info.deprecated, info.examples), RA.of(signature))
     })
   )
 }
@@ -432,12 +380,7 @@ const parseTypeAliasDeclaration = (ta: ast.TypeAliasDeclaration): Parser<TypeAli
       pipe(
         getJSDocText(ta.getJsDocs()),
         getCommentInfo(name),
-        RE.map((info) =>
-          TypeAlias(
-            Documentable(name, info.description, info.since, info.deprecated, info.examples, info.category),
-            ta.getText()
-          )
-        )
+        RE.map((info) => TypeAlias(Documentable(name, info.description, info.deprecated, info.examples), ta.getText()))
       )
     )
   )
@@ -475,10 +418,7 @@ const parseConstantVariableDeclaration = (vd: ast.VariableDeclaration): Parser<C
     RE.map((info) => {
       const type = stripImportTypes(vd.getType().getText(vd))
       const signature = `export declare const ${name}: ${type}`
-      return Constant(
-        Documentable(name, info.description, info.since, info.deprecated, info.examples, info.category),
-        signature
-      )
+      return Constant(Documentable(name, info.description, info.deprecated, info.examples), signature)
     })
   )
 }
@@ -534,12 +474,7 @@ const parseExportSpecifier = (es: ast.ExportSpecifier): Parser<Export> =>
             RA.head,
             RE.fromOption(() => `Missing ${name} documentation in ${env.path.join('/')}`),
             RE.chain((commentRange) => pipe(commentRange.getText(), getCommentInfo(name))),
-            RE.map((info) =>
-              Export(
-                Documentable(name, info.description, info.since, info.deprecated, info.examples, info.category),
-                signature
-              )
-            )
+            RE.map((info) => Export(Documentable(name, info.description, info.deprecated, info.examples), signature))
           )
         )
       )
@@ -612,12 +547,7 @@ const parseMethod = (md: ast.MethodDeclaration): Parser<O.Option<Method>> =>
                     )
                 )
               )
-              return O.some(
-                Method(
-                  Documentable(name, info.description, info.since, info.deprecated, info.examples, info.category),
-                  signatures
-                )
-              )
+              return O.some(Method(Documentable(name, info.description, info.deprecated, info.examples), signatures))
             })
           )
     )
@@ -638,10 +568,7 @@ const parseProperty = (classname: string) => (pd: ast.PropertyDeclaration): Pars
         )
       )
       const signature = `${readonly}${name}: ${type}`
-      return Property(
-        Documentable(name, info.description, info.since, info.deprecated, info.examples, info.category),
-        signature
-      )
+      return Property(Documentable(name, info.description, info.deprecated, info.examples), signature)
     })
   )
 }
@@ -715,7 +642,7 @@ const parseClass = (c: ast.ClassDeclaration): Parser<Class> =>
     RE.bind('properties', ({ name }) => parseProperties(name, c)),
     RE.map(({ methods, staticMethods, properties, info, name, signature }) =>
       Class(
-        Documentable(name, info.description, info.since, info.deprecated, info.examples, info.category),
+        Documentable(name, info.description, info.deprecated, info.examples),
         signature,
         methods,
         staticMethods,
@@ -760,7 +687,7 @@ export const parseModuleDocumentation: Parser<Documentable> = pipe(
     const onMissingDocumentation = () =>
       isDocumentationRequired
         ? E.left(`Missing documentation in ${env.path.join('/')} module`)
-        : E.right(Documentable(name, O.none, O.none, false, RA.empty, O.none))
+        : E.right(Documentable(name, O.none, false, RA.empty))
     return pipe(
       env.sourceFile.getStatements(),
       RA.foldLeft(onMissingDocumentation, (statement) =>
@@ -769,9 +696,7 @@ export const parseModuleDocumentation: Parser<Documentable> = pipe(
           RA.foldLeft(onMissingDocumentation, (commentRange) =>
             pipe(
               getCommentInfo(name, true)(commentRange.getText())(env),
-              E.map((info) =>
-                Documentable(name, info.description, info.since, info.deprecated, info.examples, info.category)
-              )
+              E.map((info) => Documentable(name, info.description, info.deprecated, info.examples))
             )
           )
         )
