@@ -10,8 +10,8 @@
   "typings": "lib/index.d.ts",
   "scripts": {
     "jest": "jest",
-    "prettier": "prettier --parser typescript --list-different \"{src,test}/**/*.ts\"",
-    "fix-prettier": "prettier --parser typescript --write \"{src,test}/**/*.ts\"",
+    "prettier": "prettier --ignore-unknown --list-different .",
+    "fix-prettier": "prettier --ignore-unknown --write .",
     "test": "npm run prettier && npm run jest && npm run docs",
     "clean": "rimraf rm -rf lib/*",
     "build": "npm run clean && tsc",
@@ -67,8 +67,6 @@
     "prettier": "^2.0.0",
     "typescript": "^3.3.1 || ^4.x"
   },
-  "tags": [],
-  "keywords": [],
   "publishConfig": {
     "access": "public"
   }
