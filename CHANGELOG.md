@@ -1,3 +1,11 @@
+## [1.0.6](https://github.com/docs-ts/docs-ts/compare/v1.0.5...v1.0.6) (2022-07-06)
+
+
+### Bug Fixes
+
+* upgrade minimum io-ts version ([7564ee9](https://github.com/docs-ts/docs-ts/commit/7564ee961c306372e1ca452e2ac13a231cd558ee))
+* use stable io-ts 2.1.3 ([f8d626e](https://github.com/docs-ts/docs-ts/commit/f8d626ec28d793b8f6f6bef38cd85b2b8ce2b9b8))
+
 ## [1.0.5](https://github.com/docs-ts/docs-ts/compare/v1.0.4...v1.0.5) (2022-07-06)
 
 
