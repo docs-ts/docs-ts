@@ -8,6 +8,7 @@
       "automerge": true
     }
   ],
+  "ignoreDeps": ["io-ts"],
   "timezone": "America/Chicago",
   "schedule": ["after 10pm every weekday", "before 5am every weekday", "every weekend"]
 }
