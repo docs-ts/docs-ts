@@ -1,3 +1,11 @@
+## [1.0.5](https://github.com/docs-ts/docs-ts/compare/v1.0.4...v1.0.5) (2022-07-06)
+
+
+### Bug Fixes
+
+* **deps:** update dependency glob to v8 ([c20d1b4](https://github.com/docs-ts/docs-ts/commit/c20d1b4e2c4383d365488bea690b315b5dc0d6e7))
+* **deps:** update dependency ts-morph to v15 ([67b7436](https://github.com/docs-ts/docs-ts/commit/67b743640e43cc0891d7922c9e11b4c7820a9240))
+
 ## [1.0.4](https://github.com/docs-ts/docs-ts/compare/v1.0.3...v1.0.4) (2022-07-06)
 
 
