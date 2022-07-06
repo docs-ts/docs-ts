@@ -4,9 +4,6 @@
 **Table of contents**
 
 - [Installation:](#installation)
-  - [Via `npm`](#via-npm)
-  - [Via `yarn`](#via-yarn)
-  - [Via `npx` (on-demand)](#via-npx-on-demand)
 - [Why](#why)
 - [Usage](#usage)
   - [Supported JSDoc Tags](#supported-jsdoc-tags)
@@ -14,7 +11,6 @@
 - [Configuration](#configuration)
 - [Documentation](#documentation)
 - [FAQ](#faq)
-- [License](#license)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
