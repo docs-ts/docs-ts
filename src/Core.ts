@@ -272,6 +272,11 @@ const cleanExamples: Program<void> = pipe(
   RTE.chainTaskEitherK(({ fileSystem, settings }) => fileSystem.remove(path.join(settings.outDir, 'examples')))
 )
 
+const removeDocsDirectory: Program<void> = pipe(
+  RTE.ask<Environment, string>(),
+  RTE.chainTaskEitherK(({ fileSystem, settings }) => fileSystem.remove(settings.outDir))
+)
+
 const spawnTsNode: Program<void> = pipe(
   RTE.ask<Environment, string>(),
   RTE.chainFirst(({ logger }) => RTE.fromTaskEither(logger.debug('Type checking examples...'))),
@@ -392,7 +397,12 @@ export const main: Effect<void> = pipe(
         pipe(
           getDocsConfiguration(pkg.name, pkg.homepage),
           RTE.chainTaskEitherK((settings) => {
-            const program = pipe(readSourceFiles, RTE.chain(parseFiles), RTE.chain(typeCheckExamples))
+            const program = pipe(
+              readSourceFiles,
+              RTE.chain(parseFiles),
+              RTE.chain(typeCheckExamples),
+              RTE.chain(() => removeDocsDirectory)
+            )
             return program({ ...capabilities, settings })
           })
         )
