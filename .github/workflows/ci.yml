@@ -16,6 +16,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
+          cache: npm
         # This is only necessary until Node.js 14 is EOL'd
       - name: Upgrade npm
         run: npm install --global npm
