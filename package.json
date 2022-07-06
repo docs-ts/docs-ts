@@ -1,5 +1,5 @@
 {
-  "name": "@ericcrosson/docs-ts",
+  "name": "@docs-ts/docs-ts",
   "version": "1.0.1",
   "description": "Documentation tool for TypeScript packages",
   "files": [
@@ -9,14 +9,14 @@
   "bin": "lib/bin.js",
   "typings": "lib/index.d.ts",
   "scripts": {
-    "jest": "jest",
-    "prettier": "prettier --ignore-unknown --list-different .",
-    "fix-prettier": "prettier --ignore-unknown --write .",
-    "test": "npm run prettier && npm run jest && npm run docs",
-    "clean": "rimraf rm -rf lib/*",
     "build": "npm run clean && tsc",
+    "clean": "rimraf rm -rf lib/*",
+    "docs": "ts-node docs.ts",
     "doctoc": "doctoc README.md --title \"**Table of contents**\"",
-    "docs": "ts-node docs.ts"
+    "format": "prettier --ignore-unknown --list-different .",
+    "format:fix": "prettier --ignore-unknown --write .",
+    "test": "jest",
+    "posttest": "npm run docs"
   },
   "repository": {
     "type": "git",
