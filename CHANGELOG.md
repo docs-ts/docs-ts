@@ -1,3 +1,10 @@
+## [1.0.7](https://github.com/docs-ts/docs-ts/compare/v1.0.6...v1.0.7) (2022-07-06)
+
+
+### Bug Fixes
+
+* remove the output directory after type checking ([f866987](https://github.com/docs-ts/docs-ts/commit/f866987c046375a75d00663dca7104184e9c69d1))
+
 ## [1.0.6](https://github.com/docs-ts/docs-ts/compare/v1.0.5...v1.0.6) (2022-07-06)
 
 
