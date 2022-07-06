@@ -20,14 +20,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/EricCrosson/docs-ts.git"
+    "url": "https://github.com/docs-ts/docs-ts.git"
   },
   "author": "Giulio Canti <giulio.canti@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/EricCrosson/docs-ts/issues"
+    "url": "https://github.com/docs-ts/docs-ts/issues"
   },
-  "homepage": "https://github.com/EricCrosson/docs-ts",
+  "homepage": "https://github.com/docs-ts/docs-ts",
   "dependencies": {
     "chalk": "^2.4.2",
     "doctrine": "^3.0.0",
