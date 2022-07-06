@@ -25,27 +25,13 @@
 
 ## Installation:
 
-#### Via `npm`
-
 ```
-npm install -D docs-ts
-```
-
-#### Via `yarn`
-
-```
-yarn add -D docs-ts
-```
-
-#### Via `npx` (on-demand)
-
-```
-npx docs-ts
+npm install --save-dev @docs-ts/docs-ts
 ```
 
 ## Why
 
-Creating and maintaing documentation for a TypeScript project of any size can quickly become a herculean task. `docs-ts` simplifies this process by allowing you to co-locate your documentation with its associated code. You simply annotate your code with JSDoc comments, and then the CLI will generate beautiful markdown documents containing all of the documentation and examples you associated with your code. In addition, the generated output of `docs-ts` can be used as a [publishing source](https://docs.github.com/en/free-pro-team@latest/github/working-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site#choosing-a-publishing-source) for your repository's documentation on GitHub.
+Creating and maintaining documentation for a TypeScript project of any size can quickly become a herculean task. `docs-ts` simplifies this process by allowing you to co-locate your documentation with its associated code. You simply annotate your code with JSDoc comments, and then the CLI will generate beautiful markdown documents containing all of the documentation and examples you associated with your code. In addition, the generated output of `docs-ts` can be used as a [publishing source](https://docs.github.com/en/free-pro-team@latest/github/working-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site#choosing-a-publishing-source) for your repository's documentation on GitHub.
 
 ## Usage
 
@@ -168,7 +154,7 @@ The following table describes each configuration parameter, its purpose, and its
 | enableSearch        | Whether or search should be enabled for GitHub Docs in the generated `_config.yml` file.                                                                                            | `true`                       |
 | enforceDescriptions | Whether or not descriptions for each module export should be required.                                                                                                              | `false`                      |
 | enforceExamples     | Whether or not `@example` tags for each module export should be required. (**Note**: examples will not be enforced in module documentation)                                         | `false`                      |
-| enforceVersion      | Whether or not `@since` tags for each module export should be required.                                                                                                             | `true`                       |
+| enforceVersion      | Whether or not `@since` tags for each module export should be required.                                                                                                             | `false`                      |
 | exclude             | An array of glob strings specifying files that should be excluded from the documentation.                                                                                           | `[]`                         |
 
 ## Documentation
@@ -180,7 +166,3 @@ The following table describes each configuration parameter, its purpose, and its
 **Q:** For functions that have overloaded definitions, is it possible to document each overload separately?
 
 **A:** No, `docs-ts` will use the documentation provided for the first overload of a function in its generated output.
-
-## License
-
-The MIT License (MIT)
