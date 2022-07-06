@@ -1,5 +1,5 @@
 {
-  "name": "@ericcrosson/docs-ts",
+  "name": "@docs-ts/docs-ts",
   "version": "1.0.1",
   "description": "Documentation tool for TypeScript packages",
   "files": [
