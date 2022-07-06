@@ -1,3 +1,10 @@
+## [1.0.4](https://github.com/docs-ts/docs-ts/compare/v1.0.3...v1.0.4) (2022-07-06)
+
+
+### Bug Fixes
+
+* **deps:** update dependency fs-extra to v10 ([6d8a81d](https://github.com/docs-ts/docs-ts/commit/6d8a81de69acd78c3bd8d7bcd0f732ce97f13206))
+
 ## [1.0.3](https://github.com/docs-ts/docs-ts/compare/v1.0.2...v1.0.3) (2022-07-06)
 
 
