@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/docs-ts/docs-ts/compare/v1.0.1...v1.0.2) (2022-07-06)
+
+
+### Bug Fixes
+
+* do not persist token after git checkout ([70e6d09](https://github.com/docs-ts/docs-ts/commit/70e6d097cb9011d0bd576534d5d7603dc41546fe)), closes [#3](https://github.com/docs-ts/docs-ts/issues/3) [/github.com/semantic-release/git/issues/196#issuecomment-601310576](https://github.com//github.com/semantic-release/git/issues/196/issues/issuecomment-601310576)
+
 ## [1.0.1](https://github.com/EricCrosson/docs-ts/compare/v1.0.0...v1.0.1) (2022-07-05)
 
 
