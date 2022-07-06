@@ -13,7 +13,8 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true,
-    "stripInternal": true
+    "stripInternal": true,
+    "incremental": true
   },
   "include": ["./src"],
   "exclude": ["./lib"]

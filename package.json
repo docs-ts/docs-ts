@@ -9,7 +9,7 @@
   "bin": "lib/bin.js",
   "typings": "lib/index.d.ts",
   "scripts": {
-    "build": "npm run clean && tsc",
+    "build": "tsc",
     "clean": "rimraf rm -rf lib/*",
     "docs": "ts-node docs.ts",
     "doctoc": "doctoc README.md --title \"**Table of contents**\"",
