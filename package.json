@@ -37,7 +37,7 @@
     "io-ts": "^2.1.3",
     "logging-ts": "^0.3.4",
     "markdown-toc": "^1.2.0",
-    "rimraf": "^2.7.1",
+    "rimraf": "^3.0.0",
     "ts-morph": "^9.1.0",
     "ts-node": "^10.8.2"
   },
@@ -52,7 +52,7 @@
     "@types/jest": "28.1.4",
     "@types/node": "10.17.60",
     "@types/prettier": "1.19.1",
-    "@types/rimraf": "2.0.5",
+    "@types/rimraf": "3.0.2",
     "doctoc": "2.2.0",
     "jest": "28.1.2",
     "prettier": "2.7.1",
