@@ -1,3 +1,10 @@
+## [1.0.8](https://github.com/docs-ts/docs-ts/compare/v1.0.7...v1.0.8) (2022-09-03)
+
+
+### Bug Fixes
+
+* **deps:** update dependency ts-morph to v16 ([43220dc](https://github.com/docs-ts/docs-ts/commit/43220dcc4e9bec84a5911188556686457947841b))
+
 ## [1.0.7](https://github.com/docs-ts/docs-ts/compare/v1.0.6...v1.0.7) (2022-07-06)
 
 
