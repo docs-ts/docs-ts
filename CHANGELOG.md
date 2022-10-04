@@ -1,3 +1,10 @@
+## [1.0.9](https://github.com/docs-ts/docs-ts/compare/v1.0.8...v1.0.9) (2022-10-04)
+
+
+### Bug Fixes
+
+* remove prettier as a peerDependency ([a1ed318](https://github.com/docs-ts/docs-ts/commit/a1ed318f8533fc6b403294fa7903c0de5be44dde)), closes [/github.com/gcanti/docs-ts/blob/3a98908f6fd9aa2d47fe23df57bf9422b7f346d1/src/Markdown.ts#L14](https://github.com//github.com/gcanti/docs-ts/blob/3a98908f6fd9aa2d47fe23df57bf9422b7f346d1/src/Markdown.ts/issues/L14)
+
 ## [1.0.8](https://github.com/docs-ts/docs-ts/compare/v1.0.7...v1.0.8) (2022-09-03)
 
 
