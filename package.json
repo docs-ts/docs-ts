@@ -42,9 +42,9 @@
     "ts-node": "^10.8.2"
   },
   "devDependencies": {
-    "@semantic-release/changelog": "6.0.1",
+    "@semantic-release/changelog": "6.0.2",
     "@semantic-release/git": "10.0.1",
-    "@semantic-release/github": "8.0.6",
+    "@semantic-release/github": "8.0.7",
     "@semantic-release/npm": "9.0.1",
     "@types/doctrine": "0.0.5",
     "@types/fs-extra": "9.0.13",
