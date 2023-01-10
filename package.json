@@ -47,7 +47,7 @@
     "@semantic-release/github": "8.0.7",
     "@semantic-release/npm": "9.0.1",
     "@types/doctrine": "0.0.5",
-    "@types/fs-extra": "9.0.13",
+    "@types/fs-extra": "11.0.1",
     "@types/glob": "8.0.0",
     "@types/jest": "28.1.8",
     "@types/node": "18.11.18",
