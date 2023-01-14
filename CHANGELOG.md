@@ -1,3 +1,10 @@
+## [1.0.12](https://github.com/docs-ts/docs-ts/compare/v1.0.11...v1.0.12) (2023-01-14)
+
+
+### Bug Fixes
+
+* **deps:** update dependency rimraf to v4 ([87d5e62](https://github.com/docs-ts/docs-ts/commit/87d5e628a437cfb6877544954e4bf10109d8bf8e))
+
 ## [1.0.11](https://github.com/docs-ts/docs-ts/compare/v1.0.10...v1.0.11) (2022-12-03)
 
 
