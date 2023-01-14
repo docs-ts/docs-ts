@@ -102,12 +102,13 @@ export const exists: (path: string) => TE.TaskEither<Error, boolean> = TE.taskif
  * @category utils
  * @since 0.6.0
  */
-export const remove: (path: string, options: rimraf.Options) => TE.TaskEither<Error, void> = TE.taskify<
-  string,
-  rimraf.Options,
-  Error,
-  void
->(rimraf)
+export const remove: (path: string, options: rimraf.RimrafOptions) => TE.TaskEither<Error, void> = (path, options) =>
+  TE.tryCatch<Error, void>(
+    () => rimraf.rimraf(path, options),
+    (error) => {
+      throw error
+    }
+  )
 
 /**
  * Searches for files matching the specified glob pattern.
