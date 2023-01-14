@@ -1,42 +1,9 @@
+---
 name: CI
 
-on: [pull_request]
+on:
+  pull_request:
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [lts/-2, lts/-1, lts/*]
-
-    steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: npm
-        # This is only necessary until Node.js 14 is EOL'd
-      - name: Upgrade npm
-        run: npm install --global npm
-      - name: Install dependencies
-        run: npm ci
-      - name: Compile TypeScript
-        run: npm run build
-      - name: Test
-        run: npm test
-
-  format:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: lts/*
-      - name: Install dependencies
-        run: npm ci
-      - name: Check formatting
-        run: npm run format
+  test:
+    uses: semantic-release-action/typescript/.github/workflows/ci.yml@v1
