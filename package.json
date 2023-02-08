@@ -50,7 +50,7 @@
     "@types/prettier": "2.7.2",
     "@types/rimraf": "3.0.2",
     "doctoc": "2.2.1",
-    "jest": "29.4.1",
+    "jest": "29.4.2",
     "prettier": "2.8.3",
     "ts-jest": "29.0.5",
     "typescript": "4.9.5"
