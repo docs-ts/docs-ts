@@ -38,7 +38,7 @@
     "logging-ts": "^0.3.4",
     "markdown-toc": "^1.2.0",
     "rimraf": "^4.0.0",
-    "ts-morph": "^17.0.0",
+    "ts-morph": "^19.0.0",
     "ts-node": "^10.8.2"
   },
   "devDependencies": {
