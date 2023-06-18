@@ -1,3 +1,10 @@
+## [1.0.13](https://github.com/docs-ts/docs-ts/compare/v1.0.12...v1.0.13) (2023-06-18)
+
+
+### Bug Fixes
+
+* **deps:** update dependency ts-morph to v19 ([a878cda](https://github.com/docs-ts/docs-ts/commit/a878cdaf66b3701ee2840f883231f6018ce080a6))
+
 ## [1.0.12](https://github.com/docs-ts/docs-ts/compare/v1.0.11...v1.0.12) (2023-01-14)
 
 
